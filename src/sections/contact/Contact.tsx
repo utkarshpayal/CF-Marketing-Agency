@@ -1,4 +1,19 @@
+import { useState } from 'react';
+
 export const Contact = () => {
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    // Optionally handle any custom submission logic here
+
+    // Reset the form after submission
+    event.target.reset();
+    
+    // Set submitted to true to show a message or perform redirection
+    setSubmitted(true);
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-center mb-2">Contact us</h1>
@@ -21,15 +36,13 @@ export const Contact = () => {
           </svg>
           <div>
             <p className="text-gray-900 text-center">
-              <a
-                href="tel:+916350246964"
-                className="hover:underline" // Optional styling
-              >
+              <a href="tel:+916350246964" className="hover:underline">
                 +91-6350246964
               </a>
             </p>
           </div>
         </div>
+
         <div className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-y-4 items-center flex-1 basis-full sm:basis-2/5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -47,16 +60,13 @@ export const Contact = () => {
           </svg>
           <div>
             <p className="text-gray-900 text-center">
-              <a
-                href="mailto:c.fmarketingagency01@gmail.com"
-                className="hover:underline" // Optional styling
-              >
+              <a href="mailto:c.fmarketingagency01@gmail.com" className="hover:underline">
                 c.fmarketingagency01@gmail.com
               </a>
             </p>
           </div>
-
         </div>
+
         <div className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-y-4 items-center flex-1 basis-auto">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -81,31 +91,30 @@ export const Contact = () => {
           <p className="text-gray-900 text-center">
             <a
               href="https://www.google.com/maps/search/?api=1&query=CF+Marketing+Agency,+Pilani-Rajasthan,+India"
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="hover:underline" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
             >
               CF Marketing Agency, Pilani-Rajasthan, India
             </a>
           </p>
-
         </div>
       </div>
 
       <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Send us a message</h2>
-        <form
+        {submitted ? (
+          <p className="text-green-500 text-center">Thank you for your message!</p>
+        ) : (
+          <form
             data-netlify="true"
             name="contact"
             method="POST"
-
+            onSubmit={handleSubmit}
           >
+            <input type="hidden" name="form-name" value="contact" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                   Your name
                 </label>
                 <input
@@ -118,10 +127,7 @@ export const Contact = () => {
                 />
               </div>
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                   Email address
                 </label>
                 <input
@@ -134,10 +140,7 @@ export const Contact = () => {
                 />
               </div>
               <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
                   Phone number
                 </label>
                 <input
@@ -149,10 +152,7 @@ export const Contact = () => {
                 />
               </div>
               <div>
-                <label
-                  htmlFor="company"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
                   Company name
                 </label>
                 <input
@@ -165,10 +165,7 @@ export const Contact = () => {
               </div>
             </div>
             <div className="mb-4">
-              <label
-                htmlFor="message"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
                 Message
               </label>
               <textarea
@@ -177,6 +174,7 @@ export const Contact = () => {
                 rows={4}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                 placeholder="Enter your message"
+                required
               ></textarea>
             </div>
             <button
@@ -186,7 +184,7 @@ export const Contact = () => {
               Send
             </button>
           </form>
-
+        )}
       </div>
     </div>
   );
