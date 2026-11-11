@@ -1,50 +1,66 @@
-# React + TypeScript + Vite
+# CF Marketing – Agency Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Marketing website for **CF Marketing**, a digital marketing agency. It is a small multi-page React app that introduces the agency, its process, the services it offers, the team, and a contact form.
 
-Currently, two official plugins are available:
+## Pages
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+All pages share a common layout (`src/layout/CommonLayout.tsx`) with a header, footer and a floating pill-shaped navigation bar at the bottom of the screen.
 
-## Expanding the ESLint configuration
+| Route | Section | Content |
+| --- | --- | --- |
+| `/` | Hero | Agency tagline and call to action |
+| `/about-us` | About | Four-step process: discover goals, craft strategy, build, launch & monitor |
+| `/our-services` | Services | Digital strategy & planning, creative strategy & web graphics, social media marketing, video/GIF & content marketing, website design & development, SEO, media planning & buying, Shopify development, email marketing |
+| `/contact-us` | Contact | Phone, email and location cards plus a contact form (name, email, phone, company, message) |
+| `/our-team` | Team | Team member cards |
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Contact form note
 
-- Configure the top-level `parserOptions` property like this:
+The form is marked up for Netlify Forms (`data-netlify="true"`, `name="contact"`), but the React submit handler currently calls `preventDefault()`, resets the form and shows a "Thank you" message, so submissions are not actually sent anywhere. Whether submissions reach Netlify in the deployed site needs confirmation.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Tech stack
+
+- [Vite](https://vitejs.dev/) 5 + React 18 + TypeScript
+- [React Router](https://reactrouter.com/) 6 (`createBrowserRouter`)
+- [Tailwind CSS](https://tailwindcss.com/) 3 with PostCSS/Autoprefixer
+- ESLint 9 with `typescript-eslint`, `react-hooks` and `react-refresh` plugins
+
+## Getting started
+
+Requirements: Node.js and npm.
+
+```sh
+npm install
+npm run dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Vite serves the app on its default port (5173).
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Scripts
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+| Script | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server |
+| `npm run build` | Type-check (`tsc -b`) and build into `dist/` |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
+
+No test script is configured.
+
+## Configuration
+
+No environment variables are used.
+
+## Project structure
+
 ```
+src/
+  App.tsx       # Router configuration
+  layout/       # CommonLayout (header, bottom nav, footer)
+  sections/     # hero, about, services, contact, team, header, footer
+  assets/       # Service icons/illustrations
+```
+
+## Deployment
+
+The app is a static SPA: deploy the `dist/` folder produced by `npm run build` to any static host. Because it uses client-side routing, the host must rewrite unknown paths to `index.html`.
